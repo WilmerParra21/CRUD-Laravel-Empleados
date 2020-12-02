@@ -1,28 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
-
 use App\Models\Empleados;
 use Illuminate\Http\Request;
+use Http\Request\EmpleadoPost;
 
 class EmpleadoController extends Controller
-{
-   
+{  
     //index
     public function listarEmpleados()
     {
         // se seleciona la tabla señalada sin modelo
         //$empleado = DB::table('empleados')->get();
-
     // usando el modelo
    // $empleado = Empleados::get();
-
     // ordenamiento por nombre de forma asc
    // $empleado = Empleados::orderBy('nombre')->get();
-
     // ordenamiento de forma desc por el campo created_at
     $empleado = Empleados::orderBy('created_at', 'DESC')->get();
-
     // en la vista, al agregar ese metodo muestra hace cuanto se actualizo
     // $empe->created_at->diffforHumans()
 
@@ -37,7 +31,8 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        //
+
+         return view('empleado.agregar');
     }
 
     /**
@@ -46,13 +41,22 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function agregarEmpleado(Request $request){
+    // store
+    public function agregarEmpleado(EmpleadoPost $validar){
+
+// añadir datos a la BD
+Empleados::create($validar->validated());
+
+
+return redirect()->route('empleado.index');
+       /*
         return $request->validate([
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email', 
             'cargo' => 'required']);
-        }
+       */
+       }
 
     /**
      * Display the specified resource.
@@ -64,9 +68,9 @@ class EmpleadoController extends Controller
     // show
     public function buscarEmpleado($id)
     {
-        $empleado = Empleados::find($id);
+$empleado = Empleados::find($id);
 
-        return view('empleado.detalle', compact('empleado'));
+ return view('empleado.detalle', compact('empleado'));
     }
 
     /**

@@ -21,7 +21,6 @@ Route::get('/empleado', [\App\Http\Controllers\EmpleadoController::class, 'lista
 
 Route::get('empleado/{id?}', [\App\Http\Controllers\EmpleadoController::class, 'buscarEmpleado'])->name('empleado.detalle');
 
+Route::get('agregar', [\App\Http\Controllers\EmpleadoController::class, 'create'])->name('empleado.agregar');
 
-Route::view('/agregar', 'empleado.agregar')->name('empleado.agregar');
-
-Route::post('/agregar', [\App\Http\Controllers\EmpleadoController::class, 'agregarEmpleado']);
+Route::post('empleado', [\App\Http\Controllers\EmpleadoController::class, 'agregarEmpleado'])->name('empleado.guardar');

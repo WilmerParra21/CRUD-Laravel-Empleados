@@ -6,7 +6,7 @@ Agregar Empleado
 
 <h1 class="text-center text-primary border-bottom border-dark pb-2 ">Agregar Empleado</h1>
 
-<form method="POST" action="{{route('empleado.agregar')}}" accept-charset="utf-8" class="mt-3 container-xl">
+<form method="POST" action="{{route('empleado.guardar')}}" accept-charset="utf-8" class="mt-3 container-xl">
 
 	@csrf
 	<div class="mb-1">
@@ -20,7 +20,7 @@ Agregar Empleado
 	{!! $errors->first('apellido', '<small>:message</small><br>') !!}
 </div>
 <div class="mb-1">
-	<input type="email" name="email" placeholder="Correo" class="form-control" class="mb-1">
+	<input type="email" name="correo" placeholder="Correo" class="form-control" class="mb-1">
 	
 	{!! $errors->first('email', '<small>:message</small><br>') !!}
 </div>
