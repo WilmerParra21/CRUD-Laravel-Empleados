@@ -28,3 +28,5 @@ Route::post('empleado', [\App\Http\Controllers\EmpleadoController::class, 'agreg
 Route::get('empleado/{id}/editar', [\App\Http\Controllers\EmpleadoController::class, 'editarEmpleado'])->name('empleado.editar');
 
 Route::put('/empleado/{id}', [\App\Http\Controllers\EmpleadoController::class, 'actualizarEmpleado'])->name('empleado.update');
+
+Route::get('/empleado/{id}/eliminar', [\App\Http\Controllers\EmpleadoController::class, 'eliminarEmpleado'])->name('empleado.delete');

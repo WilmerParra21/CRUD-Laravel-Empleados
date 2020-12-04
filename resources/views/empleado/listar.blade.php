@@ -34,7 +34,7 @@ Lista de Empleados
 
 	<a href="{{route('empleado.editar', $empe)}}" class="btn btn-warning">Editar</a>
 
-	<a href="" class="btn btn-danger">Eliminar</a>
+	<a href="{{route('empleado.delete', $empe)}}" class="btn btn-danger" onclick="confirm('¿ Desea Eliminar?')">Eliminar</a>
 			</td>
 			</tr>
 			@endforeach
