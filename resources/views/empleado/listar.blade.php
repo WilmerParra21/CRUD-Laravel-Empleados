@@ -32,7 +32,7 @@ Lista de Empleados
 			<td>
 	<a href="{{route('empleado.detalle', $empe)}}" class="btn btn-info">Ver Detalle</a>
 
-	<a href="" class="btn btn-warning">Editar</a>
+	<a href="{{route('empleado.editar', $empe)}}" class="btn btn-warning">Editar</a>
 
 	<a href="" class="btn btn-danger">Eliminar</a>
 			</td>

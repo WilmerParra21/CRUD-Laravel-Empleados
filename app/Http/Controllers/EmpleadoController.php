@@ -1,8 +1,9 @@
 <?php
+namespace App\Http\Controllers;
 
 use App\Models\Empleados;
 use Illuminate\Http\Request;
-use Http\Request\EmpleadoPost;
+use App\Http\Requests\EmpleadoPost;
 
 class EmpleadoController extends Controller
 {  
@@ -53,7 +54,7 @@ return redirect()->route('empleado.index');
         return $request->validate([
             'nombre' => 'required',
             'apellido' => 'required',
-            'email' => 'required|email', 
+            'correo' => 'required|email', 
             'cargo' => 'required']);
        */
        }
@@ -79,9 +80,12 @@ $empleado = Empleados::find($id);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editarEmpleado($id)
     {
-        //
+        $empleado = Empleados::find($id);
+
+        return view('empleado.editar', compact('empleado'));
+
     }
 
     /**
@@ -91,9 +95,11 @@ $empleado = Empleados::find($id);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function actualizarEmpleado(EmpleadoPost $request, $id)
     {
-        //
+        $empleado = Empleados::find($id);
+        $empleado->update($request->validated());
+        return redirect('empleado.index');
     }
 
     /**
@@ -102,8 +108,10 @@ $empleado = Empleados::find($id);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function eliminarEmpleado($id)
     {
-        //
+        $empleado = Empleados::find($id);
+        $empleado->delete();
+        return redirect()->route('empleado.index');
     }
 }

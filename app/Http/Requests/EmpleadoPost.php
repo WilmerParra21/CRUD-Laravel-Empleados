@@ -27,7 +27,7 @@ class EmpleadoPost extends FormRequest
         'nombre' => 'required|max:45',
         'apellido' => 'required|max:45',
         'correo' => 'required|email',
-        'cargos' => 'required'
+        'cargo' => 'required'
         ];
     }
 }

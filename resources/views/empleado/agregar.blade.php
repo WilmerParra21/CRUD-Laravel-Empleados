@@ -22,7 +22,7 @@ Agregar Empleado
 <div class="mb-1">
 	<input type="email" name="correo" placeholder="Correo" class="form-control" class="mb-1">
 	
-	{!! $errors->first('email', '<small>:message</small><br>') !!}
+	{!! $errors->first('correo', '<small>:message</small><br>') !!}
 </div>
 <div class="mb-1">
 	<input type="text" name="cargo" placeholder="Cargo" class="form-control" class="mb-1">

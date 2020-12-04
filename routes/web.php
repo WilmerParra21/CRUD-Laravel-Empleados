@@ -19,8 +19,12 @@ Route::get('/', function () {
 
 Route::get('/empleado', [\App\Http\Controllers\EmpleadoController::class, 'listarEmpleados'])->name('empleado.index');
 
-Route::get('empleado/{id?}', [\App\Http\Controllers\EmpleadoController::class, 'buscarEmpleado'])->name('empleado.detalle');
+Route::get('empleado/{id}', [\App\Http\Controllers\EmpleadoController::class, 'buscarEmpleado'])->name('empleado.detalle');
 
 Route::get('agregar', [\App\Http\Controllers\EmpleadoController::class, 'create'])->name('empleado.agregar');
 
 Route::post('empleado', [\App\Http\Controllers\EmpleadoController::class, 'agregarEmpleado'])->name('empleado.guardar');
+
+Route::get('empleado/{id}/editar', [\App\Http\Controllers\EmpleadoController::class, 'editarEmpleado'])->name('empleado.editar');
+
+Route::put('/empleado/{id}', [\App\Http\Controllers\EmpleadoController::class, 'actualizarEmpleado'])->name('empleado.update');
