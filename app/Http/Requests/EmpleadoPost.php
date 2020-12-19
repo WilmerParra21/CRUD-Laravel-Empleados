@@ -25,6 +25,7 @@ class EmpleadoPost extends FormRequest
     {
         return [
         'nombre' => 'required|max:45',
+        'avatar'=> 'image',
         'apellido' => 'required|max:45',
         'correo' => 'required|email',
         'cargo' => 'required'

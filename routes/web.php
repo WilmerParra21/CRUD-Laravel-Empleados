@@ -1,7 +1,15 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+/*
+App\Models\User::create([
+    'name' => 'Luis',
+    'email'=> 'Luis21@gmail.com',
+    'password'=>bcrypt('5678')
 
+]);
+*/
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
 Route::get('/empleado', [\App\Http\Controllers\EmpleadoController::class, 'listarEmpleados'])->name('empleado.index');
 
@@ -30,10 +36,9 @@ Route::get('empleado/{id}/editar', [\App\Http\Controllers\EmpleadoController::cl
 Route::put('/empleado/{id}', [\App\Http\Controllers\EmpleadoController::class, 'actualizarEmpleado'])->name('empleado.update');
 
 Route::get('/empleado/{id}/eliminar', [\App\Http\Controllers\EmpleadoController::class, 'eliminarEmpleado'])->name('empleado.delete');
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
+
+Auth::routes();

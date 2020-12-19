@@ -7,6 +7,14 @@ use App\Http\Requests\EmpleadoPost;
 
 class EmpleadoController extends Controller
 {  
+
+        public function __construct()
+        {
+    
+   // $this ->middleware('auth')->only("listarEmpleados" );
+   $this ->middleware(['auth', 'rol:Administrador'])->except('listarEmpleados', 'buscarEmpleado');
+}
+
     //index
     public function listarEmpleados()
     {
@@ -20,7 +28,6 @@ class EmpleadoController extends Controller
     $empleado = Empleados::orderBy('created_at', 'DESC')->get();
     // en la vista, al agregar ese metodo muestra hace cuanto se actualizo
     // $empe->created_at->diffforHumans()
-
         // con el compact se envia a la vista
     return view('empleado.listar', compact('empleado'));
     }
@@ -48,8 +55,14 @@ class EmpleadoController extends Controller
 // añadir datos a la BD
 Empleados::create($validar->validated());
 
+// se crea el objeto por medio del fill
+$empleado=(new Empleados)->fill($validar->validated());
+if($validar->hasFile('avatar')){
+    $empleado->avatar=$validar->file('avatar')->store('public');
+}
+$empleado->save();
 
-return redirect()->route('empleado.index');
+return redirect()->route('empleado.index')->with('guardar', 'Se ha Agregado Correctamente');
        /*
         return $request->validate([
             'nombre' => 'required',
@@ -98,8 +111,12 @@ $empleado = Empleados::find($id);
     public function actualizarEmpleado(EmpleadoPost $request, $id)
     {
         $empleado = Empleados::find($id);
+        if($request->hasFile('avatar')){
+             $empleado->avatar=$request->file('avatar')->store('public');
+        }
         $empleado->update($request->validated());
-        return redirect('empleado.index');
+
+        return redirect()->route('empleado.index')->with('modificar', 'Se ha Actualizado Correctamente');
     }
 
     /**
@@ -112,6 +129,6 @@ $empleado = Empleados::find($id);
     {
         $empleado = Empleados::find($id);
         $empleado->delete();
-        return redirect()->route('empleado.index');
+        return redirect()->route('empleado.index')->with('eliminar', 'Se ha Eliminado Correctamente');
     }
 }

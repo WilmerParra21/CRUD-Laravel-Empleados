@@ -40,4 +40,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function hasRol(array $roles){
+        foreach($roles as $rol){
+            if($this->rol === $rol){
+                return true;
+            }
+        }
+        return false;
+    }
 }

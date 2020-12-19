@@ -27,12 +27,32 @@
         <a class="nav-link text-light" href="#">Contactos</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0 mr-5">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+    <ul class="nav navbar-nav navbar-right">
+    @guest
+    <li><a class="nav-link text-light mr-2" href="{{route('register')}}">Registrarse</a></li>
+    @endguest
+
+    @guest
+    <li><a class="nav-link text-light mr-2" href="{{route('login')}}">Iniciar Sesión</a></li>
+    @else
+    <li class="nav-item active mr-2"><a class="nav-link text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a></li>
+    @endguest
+
+    <li class="nav-item active">
+    @auth
+    <a class="nav-link text-success" href="#">Bienvenido {{auth()->user()->name}}</a>
+    @endauth
+    </li>
+    </ul>
   </div>
 </nav>
+<form id="logout-form" action="{{route('logout')}}" method="POST" class="d-none">
+@csrf
+</form>
 
 @yield('contenido')
 </body>
