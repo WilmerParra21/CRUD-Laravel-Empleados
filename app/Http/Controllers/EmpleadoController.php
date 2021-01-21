@@ -53,7 +53,7 @@ class EmpleadoController extends Controller
     public function agregarEmpleado(EmpleadoPost $validar){
 
 // añadir datos a la BD
-Empleados::create($validar->validated());
+//Empleados::create($validar->validated());
 
 // se crea el objeto por medio del fill
 $empleado=(new Empleados)->fill($validar->validated());
