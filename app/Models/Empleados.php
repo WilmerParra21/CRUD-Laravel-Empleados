@@ -12,4 +12,9 @@ class Empleados extends Model
     //protected $fillable = ['nombre', 'apellido', 'correo', 'cargo'];
     // en caso de que la tabla no e llame igual
     //protected $table="nombredetabla";
+
+    public function cargos(){
+
+        return $this->belongsTo(Cargo::class, 'cargos_id', 'id');
+    }
 }

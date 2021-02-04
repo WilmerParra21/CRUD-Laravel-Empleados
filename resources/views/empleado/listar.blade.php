@@ -49,6 +49,7 @@ Lista de Empleados
 				<th class="text-center" scope="col">Correo</th>
 				<th class="text-center" scope="col">Cargo</th>
 				<th class="text-center" scope="col">Fecha de Creacion</th>
+				<th class="text-center" scope="col">Estado</th>
 				<th class="text-center">Acciones</th>
 			</tr>
 		</thead>
@@ -56,11 +57,12 @@ Lista de Empleados
 		<tbody>
 			@foreach($empleado as $empe)
 			<tr>
-				<td>{{$empe->nombre}}</td>
-				<td>{{$empe->apellido}}</td>
-				<td>{{$empe->correo}}</td>
-				<td>{{$empe->cargo}}</td>
+				<td class="text-capitalize">{{$empe->nombre}}</td>
+				<td class="text-capitalize">{{$empe->apellido}}</td>
+				<td class="text-center">{{$empe->correo}}</td>
+				<td>{{$empe->cargos->nombre}}</td>
 				<td>{{$empe->created_at->diffforHumans()}}</td>
+				<td>{{$empe->estado==1 ? 'Activo' : 'Inactivo'}}</td>
 			<td>
 	<a href="{{route('empleado.detalle', $empe)}}" class="btn btn-info">Ver Detalle</a>
 
@@ -75,5 +77,6 @@ Lista de Empleados
 			@endforeach
 		</tbody>
 	</table>
+	{{$empleado->links()}}
 </div>
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Empleados;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmpleadoPost;
+use App\Models\Cargo;
 
 class EmpleadoController extends Controller
 {  
@@ -25,10 +26,11 @@ class EmpleadoController extends Controller
     // ordenamiento por nombre de forma asc
    // $empleado = Empleados::orderBy('nombre')->get();
     // ordenamiento de forma desc por el campo created_at
-    $empleado = Empleados::orderBy('created_at', 'DESC')->get();
+    $empleado = Empleados::orderBy('created_at', 'DESC')->paginate(2);
     // en la vista, al agregar ese metodo muestra hace cuanto se actualizo
     // $empe->created_at->diffforHumans()
         // con el compact se envia a la vista
+
     return view('empleado.listar', compact('empleado'));
     }
 
@@ -39,8 +41,8 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-
-         return view('empleado.agregar');
+        $cargo = Cargo::all();
+        return view('empleado.agregar', compact('cargo'));
     }
 
     /**

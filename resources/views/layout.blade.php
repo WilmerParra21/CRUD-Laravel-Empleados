@@ -24,7 +24,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-light" href="#">Contactos</a>
+        <a class="nav-link text-light" href="#">Contacto</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0 mr-5">

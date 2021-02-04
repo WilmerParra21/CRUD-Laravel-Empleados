@@ -34,9 +34,13 @@ Agregar Empleado
 	{!! $errors->first('correo', '<small>:message</small><br>') !!}
 </div>
 <div class="mb-1">
-	<input type="text" name="cargo" placeholder="Cargo" class="form-control" class="mb-1">
-	
-	{!! $errors->first('cargo', '<small>:message</small><br>') !!}
+	<select name="cargos_id" class="form-control">
+	<option selected disabled>--Seleccionar--</option>
+	@foreach($cargo as $car)	
+	<option value="{{$car->id}}">{{$car->nombre}}</option>
+	@endforeach
+	</select>
+	{!! $errors->first('cargos_id', '<small>:message</small><br>') !!}
 </div>
 <br>
 	<button type="reset" class="btn btn-danger">Borrar</button>
