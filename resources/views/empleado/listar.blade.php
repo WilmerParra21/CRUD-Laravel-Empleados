@@ -34,12 +34,19 @@ Lista de Empleados
 
 <h1 class="text-center mt-2">Lista de Empleados</h1>
 <div class="container-xl">
+<form class="d-flex justify-content-center m-3 col-4">
+	
+	<input type="search" class="form-control" name="datos" placeholder="Buscar Empleado">
+	<input type="submit" class="ml-2 btn btn-success" value="Buscar">
+	
+</form>
 	<div class="d-flex justify-content-right align-items-end">
 	@auth
 	@if(auth()->user()->hasRol(['Administrador']))
 		<a href="{{route('empleado.agregar')}}" class="btn btn-block btn-primary align-items-end">Agregar</a>
 	@endif
 	@endauth
+	
 	</div>
 	<table class="table">
 		<thead class="table-dark">
@@ -60,16 +67,19 @@ Lista de Empleados
 				<td class="text-capitalize">{{$empe->nombre}}</td>
 				<td class="text-capitalize">{{$empe->apellido}}</td>
 				<td class="text-center">{{$empe->correo}}</td>
-				<td>{{$empe->cargos->nombre}}</td>
-				<td>{{$empe->created_at->diffforHumans()}}</td>
-				<td>{{$empe->estado==1 ? 'Activo' : 'Inactivo'}}</td>
-			<td>
+				<td class="text-center">{{$empe->cargos->nombre}}</td>
+				<td class="text-center">{{$empe->created_at->diffforHumans()}}</td>
+				<td class="text-center">{{$empe->estado==1 ? 'Activo' : 'Inactivo'}}</td>
+			<td class="text-center">
 	<a href="{{route('empleado.detalle', $empe)}}" class="btn btn-info">Ver Detalle</a>
 
 	@auth
 	@if(auth()->user()->hasRol(['Administrador']))
 	<a href="{{route('empleado.editar', $empe)}}" class="btn btn-warning">Editar</a>
 	<a href="{{route('empleado.delete', $empe)}}" class="btn btn-danger" onclick="confirm('¿Desea Eliminar?')">Eliminar</a>
+	<a href="{{route('empleado.estado', array($empe->id, 1))}}" class="btn btn-success mt-2">Activar</a>
+	<a href="{{route('empleado.estado', array($empe->id, 0))}}" class="btn btn-dark mt-2">Desactivar</a>
+	
 	@endif
 	@endauth
 			</td>

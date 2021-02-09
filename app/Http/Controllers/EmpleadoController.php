@@ -9,15 +9,15 @@ use App\Models\Cargo;
 class EmpleadoController extends Controller
 {  
 
-        public function __construct()
-        {
+    public function __construct()
+    {
     
    // $this ->middleware('auth')->only("listarEmpleados" );
-   $this ->middleware(['auth', 'rol:Administrador'])->except('listarEmpleados', 'buscarEmpleado');
+   $this->middleware(['auth', 'rol:Administrador'])->except('listarEmpleados', 'buscarEmpleado');
 }
 
     //index
-    public function listarEmpleados()
+    public function listarEmpleados(Request $request)
     {
         // se seleciona la tabla señalada sin modelo
         //$empleado = DB::table('empleados')->get();
@@ -26,12 +26,19 @@ class EmpleadoController extends Controller
     // ordenamiento por nombre de forma asc
    // $empleado = Empleados::orderBy('nombre')->get();
     // ordenamiento de forma desc por el campo created_at
-    $empleado = Empleados::orderBy('created_at', 'DESC')->paginate(2);
+    // $empleado = Empleados::orderBy('created_at', 'DESC')->paginate(2);
     // en la vista, al agregar ese metodo muestra hace cuanto se actualizo
     // $empe->created_at->diffforHumans()
         // con el compact se envia a la vista
 
-    return view('empleado.listar', compact('empleado'));
+            if($request){
+                $query = trim($request->get('datos'));
+
+                $empleado = Empleados::where('nombre', 'LIKE', '%' .$query. '%')->orderBy('id', 'asc')->paginate(2);
+
+                return view('empleado.listar', compact('empleado'));
+            }
+  //  return view('empleado.listar', compact('empleado'));
     }
 
     /**
@@ -98,8 +105,9 @@ $empleado = Empleados::find($id);
     public function editarEmpleado($id)
     {
         $empleado = Empleados::find($id);
+        $cargo    = Cargo::all();
 
-        return view('empleado.editar', compact('empleado'));
+        return view('empleado.editar', compact('empleado', 'cargo'));
 
     }
 
@@ -113,6 +121,7 @@ $empleado = Empleados::find($id);
     public function actualizarEmpleado(EmpleadoPost $request, $id)
     {
         $empleado = Empleados::find($id);
+
         if($request->hasFile('avatar')){
              $empleado->avatar=$request->file('avatar')->store('public');
         }
@@ -127,6 +136,18 @@ $empleado = Empleados::find($id);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function cambiarEstado($id, $estado){
+        $empleado = Empleados::find($id);
+
+        if($empleado==null){
+             return redirect()->route('empleado.index');
+        }
+       $empleado->update(['estado'=> $estado]);
+
+       return redirect()->route('empleado.index');
+     }
+
     public function eliminarEmpleado($id)
     {
         $empleado = Empleados::find($id);

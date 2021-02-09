@@ -14,7 +14,9 @@ class AddCargosIdToEmpleadosTable extends Migration
     public function up()
     {
         Schema::table('empleados', function (Blueprint $table) {
-            //
+              $table->unsignedBigInteger('cargos_id')->after('correo');
+               //foreing crea una llave secundaria
+            $table->foreign('cargos_id')->references('id')->on('cargos');
         });
     }
 
@@ -26,9 +28,8 @@ class AddCargosIdToEmpleadosTable extends Migration
     public function down()
     {
         Schema::table('empleados', function (Blueprint $table){
-            $table->unsignedBigInteger('cargos_id')->after('correo');
-            //foreing crea una llave secundaria
-            $table->foreign('cargos_id')->references('id')->on('cargos');
+          
+           
         });
     }
 }

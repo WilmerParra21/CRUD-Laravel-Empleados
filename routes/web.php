@@ -44,6 +44,8 @@ Route::get('/contacto', [\App\Http\Controllers\ContactoController::class, 'index
 
 Route::post('/contacto', [\App\Http\Controllers\ContactoController::class, 'Contacto'])->name('emails.enviar');
 
+Route::get('/empleado/{id}/{estado}/estado',  [\App\Http\Controllers\EmpleadoController::class, 'cambiarEstado'])->name('empleado.estado');
+
 Auth::routes();
 
 Auth::routes();

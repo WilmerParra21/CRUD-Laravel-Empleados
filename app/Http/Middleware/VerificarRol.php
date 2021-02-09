@@ -14,7 +14,7 @@ class VerificarRol
      * @param  \Closure  $next
      * @return mixed
      */
-    // el metodo nos sirve para pedir peticciones HTTP y nosotros necesitamos pedir quien esta logueado dentro de nuestro sistema
+    // el metodo nos sirve para pedir peticiones HTTP y nosotros necesitamos pedir quien esta logueado dentro de nuestro sistema
     public function handle(Request $request, Closure $next)
     {
         // trae los roles
@@ -23,7 +23,7 @@ class VerificarRol
         if(auth()->user()->hasRol($roles)){
 
     return $next($request);
-        }
+    }
        return redirect('/');
     }
 }
