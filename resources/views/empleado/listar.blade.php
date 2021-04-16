@@ -62,14 +62,18 @@ Lista de Empleados
 		</thead>
 
 		<tbody>
-			@foreach($empleado as $empe)
-			<tr>
-				<td class="text-capitalize">{{$empe->nombre}}</td>
-				<td class="text-capitalize">{{$empe->apellido}}</td>
-				<td class="text-center">{{$empe->correo}}</td>
-				<td class="text-center">{{$empe->cargos->nombre}}</td>
-				<td class="text-center">{{$empe->created_at->diffforHumans()}}</td>
-				<td class="text-center">{{$empe->estado==1 ? 'Activo' : 'Inactivo'}}</td>
+	@foreach($empleado as $empe)
+	<tr>
+<td class="text-capitalize">{{$empe->nombre}}</td>
+
+<td class="text-capitalize">{{$empe->apellido}}</td>
+<td class="text-center">{{$empe->correo}}</td>
+
+<td class="text-center">{{$empe->cargos->nombre}}</td>
+
+<td class="text-center">{{$empe->created_at->diffforHumans()}}</td>
+
+<td class="text-center">{{$empe->estado==1 ? 'Activo' : 'Inactivo'}}</td>
 			<td class="text-center">
 	<a href="{{route('empleado.detalle', $empe)}}" class="btn btn-info">Ver Detalle</a>
 

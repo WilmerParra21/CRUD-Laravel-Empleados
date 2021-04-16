@@ -5,16 +5,22 @@ use App\Models\Empleados;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmpleadoPost;
 use App\Models\Cargo;
+use App\Repositories\EmpleadoRepo;
 
 class EmpleadoController extends Controller
 {  
+   
+    protected $empleadorepo;
 
-    public function __construct()
+    public function __construct(EmpleadoRepo $repositorioEmp)
     {
     
    // $this ->middleware('auth')->only("listarEmpleados" );
    $this->middleware(['auth', 'rol:Administrador'])->except('listarEmpleados', 'buscarEmpleado');
+    
+   $this->empleadorepo = $repositorioEmp;
 }
+
 
     //index
     public function listarEmpleados(Request $request)
@@ -31,12 +37,10 @@ class EmpleadoController extends Controller
     // $empe->created_at->diffforHumans()
         // con el compact se envia a la vista
 
-            if($request){
-                $query = trim($request->get('datos'));
-
-                $empleado = Empleados::where('nombre', 'LIKE', '%' .$query. '%')->orderBy('id', 'asc')->paginate(2);
-
-                return view('empleado.listar', compact('empleado'));
+    if($request){
+        
+        $empleado = $this->empleadorepo->findAllEmpleados($request);
+    return view('empleado.listar', compact('empleado'));
             }
   //  return view('empleado.listar', compact('empleado'));
     }
@@ -48,7 +52,8 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        $cargo = Cargo::all();
+        $cargo = $this->empleadorepo->editar();
+
         return view('empleado.agregar', compact('cargo'));
     }
 
@@ -61,25 +66,20 @@ class EmpleadoController extends Controller
     // store
     public function agregarEmpleado(EmpleadoPost $validar){
 
-// añadir datos a la BD
-//Empleados::create($validar->validated());
-
-// se crea el objeto por medio del fill
-$empleado=(new Empleados)->fill($validar->validated());
-if($validar->hasFile('avatar')){
-    $empleado->avatar=$validar->file('avatar')->store('public');
-}
-$empleado->save();
+        if($validar){
+        
+        $this->empleadorepo->agregarEmpleado($validar);
+        }
 
 return redirect()->route('empleado.index')->with('guardar', 'Se ha Agregado Correctamente');
-       /*
+    /*
         return $request->validate([
             'nombre' => 'required',
             'apellido' => 'required',
             'correo' => 'required|email', 
             'cargo' => 'required']);
        */
-       }
+    }
 
     /**
      * Display the specified resource.
@@ -91,7 +91,9 @@ return redirect()->route('empleado.index')->with('guardar', 'Se ha Agregado Corr
     // show
     public function buscarEmpleado($id)
     {
-$empleado = Empleados::find($id);
+    if($id){
+       $empleado = $this->empleadorepo->buscar($id);
+    }
 
  return view('empleado.detalle', compact('empleado'));
     }
@@ -104,11 +106,11 @@ $empleado = Empleados::find($id);
      */
     public function editarEmpleado($id)
     {
-        $empleado = Empleados::find($id);
-        $cargo    = Cargo::all();
-
+        if($id){
+           $empleado = $this->empleadorepo->buscar($id);
+           $cargo = $this->empleadorepo->editar();
+        }
         return view('empleado.editar', compact('empleado', 'cargo'));
-
     }
 
     /**
@@ -120,12 +122,9 @@ $empleado = Empleados::find($id);
      */
     public function actualizarEmpleado(EmpleadoPost $request, $id)
     {
-        $empleado = Empleados::find($id);
-
-        if($request->hasFile('avatar')){
-             $empleado->avatar=$request->file('avatar')->store('public');
-        }
-        $empleado->update($request->validated());
+       if($request && $id){
+        $this->empleadorepo->actualizar($request, $id);
+       }
 
         return redirect()->route('empleado.index')->with('modificar', 'Se ha Actualizado Correctamente');
     }
@@ -137,21 +136,23 @@ $empleado = Empleados::find($id);
      * @return \Illuminate\Http\Response
      */
 
-     public function cambiarEstado($id, $estado){
+    public function cambiarEstado($id, $estado){
+    
         $empleado = Empleados::find($id);
 
         if($empleado==null){
-             return redirect()->route('empleado.index');
-        }
-       $empleado->update(['estado'=> $estado]);
+            return redirect()->route('empleado.index');
+    }
+    $empleado->update(['estado'=> $estado]);
 
-       return redirect()->route('empleado.index');
-     }
+    return redirect()->route('empleado.index');
+    }
 
     public function eliminarEmpleado($id)
     {
-        $empleado = Empleados::find($id);
-        $empleado->delete();
+       if($id){
+        $this->empleadorepo->eliminar($id);
+       }
         return redirect()->route('empleado.index')->with('eliminar', 'Se ha Eliminado Correctamente');
     }
 }
